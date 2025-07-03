@@ -1,5 +1,6 @@
 package ru.netology.cardtransfer.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +11,14 @@ import java.util.UUID;
 
 @RestController
 public class TransferController {
-
+    // Пример вычисления комиссии: 1% от суммы (можно изменить)
+private final float comissionPercentage= 0.01F;
     @Autowired
     private TransferLogService logService;
 
     @PostMapping("/transfer")
-    public ResponseEntity<?> transfer(@RequestBody TransferRequest request) {
-        // Пример вычисления комиссии: 1% от суммы (можно изменить)
-        int commission = (int) Math.ceil(request.amount.value * 0.01);
+    public ResponseEntity<?> transfer(@Valid @RequestBody TransferRequest request) {
+        int commission = (int) Math.ceil(request.amount.value * comissionPercentage);
 
         // Считаем результат успешным
         String operationId = UUID.randomUUID().toString();
