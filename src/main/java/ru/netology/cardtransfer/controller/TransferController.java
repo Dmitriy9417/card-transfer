@@ -3,8 +3,13 @@ package ru.netology.cardtransfer.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import ru.netology.cardtransfer.model.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import ru.netology.cardtransfer.model.ConfirmRequest;
+import ru.netology.cardtransfer.model.ConfirmResponse;
+import ru.netology.cardtransfer.model.TransferRequest;
+import ru.netology.cardtransfer.model.TransferResponse;
 import ru.netology.cardtransfer.service.TransferLogService;
 
 import java.util.UUID;
@@ -39,18 +44,9 @@ private final float comissionPercentage= 0.01F;
 
     @PostMapping("/confirmOperation")
     public ResponseEntity<?> confirm(@RequestBody ConfirmRequest request) {
-        // Просто логируем подтверждение
-//        logService.logTransfer(
-//                "-", // from
-//                "-", // to
-//                0,   // amount
-//                "-", // currency
-//                0,   // commission
-//                "CONFIRM, operationId=" + request.operationId
-//        );
 
         ConfirmResponse response = new ConfirmResponse();
-        response.operationId = request.operationId;
+        response.operationId = request.getOperationId();
         return ResponseEntity.ok(response);
     }
 }
